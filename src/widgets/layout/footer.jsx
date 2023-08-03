@@ -79,9 +79,9 @@ export function Footer({ title, description, socials, menus, copyright }) {
 }
 
 Footer.defaultProps = {
-  title: "Material Tailwind",
+  title: "PadelUp",
   description:
-    "Easy to use React components for Tailwind CSS and Material Design.",
+    "Elevate Your Game and Experience the Joy of Playing Tennis like a Pro, at Your Own Convenience and in Top-notch Stadiums!",
   socials: [
     {
       color: "blue",
@@ -154,15 +154,7 @@ Footer.defaultProps = {
   ],
   copyright: (
     <>
-      Copyright © {year} Material Tailwind by{" "}
-      <a
-        href="https://www.creative-tim.com?ref=mtk"
-        target="_blank"
-        className="text-blue-gray-500 transition-colors hover:text-blue-500"
-      >
-        Creative Tim
-      </a>
-      .
+      Copyright © {year} PadelUp
     </>
   ),
 };

@@ -7,24 +7,24 @@ import {
 export const featuresData = [
   {
     color: "blue",
-    title: "Awarded Agency",
+    title: "Match Connect",
     icon: StarIcon,
     description:
-      "Divide details about your product or agency work into parts. A paragraph describing a feature will be enough.",
+      "Find and connect with players at your skill level to reserve tennis courts hassle-free.",
   },
   {
     color: "red",
-    title: "Free Revisions",
+    title: "Instant Reserve",
     icon: ArrowPathIcon,
     description:
-      "Keep you user engaged by providing meaningful information. Remember that by this time, the user is curious.",
+      "Never miss a game - reserve courts instantly and get notified of canceled reservations.",
   },
   {
     color: "teal",
-    title: "Verified Company",
+    title: "Fair Cancellation",
     icon: FingerPrintIcon,
     description:
-      "Write a few lines about each one. A paragraph describing a feature will be enough. Keep you user engaged!",
+      "Enjoy a flexible cancellation policy – cancel up to three hours before without any charges.",
   },
 ];
 
