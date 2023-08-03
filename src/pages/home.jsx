@@ -107,10 +107,8 @@ export function Home() {
       </section>
       <section className="px-4 pb-48 pt-20">
         <div className="container mx-auto">
-          <PageTitle heading="Here are our heroes">
-            According to the National Oceanic and Atmospheric Administration,
-            Ted, Scambos, NSIDClead scentist, puts the potentially record
-            maximum.
+          <PageTitle heading="Here are some of our stadia">
+          Discover our diverse stadia selection, tailored to cater to your tennis needs. Choose from top-notch facilities and reserve your favorite court with ease.
           </PageTitle>
           <div className="mt-24 grid grid-cols-1 gap-12 gap-x-24 md:grid-cols-2 xl:grid-cols-4">
             {teamData.map(({ img, name, position, socials }) => (
@@ -135,10 +133,8 @@ export function Home() {
       </section>
       <section className="relative bg-blue-gray-50/50 px-4 py-24">
         <div className="container mx-auto">
-          <PageTitle heading="Build something">
-            Put the potentially record low maximum sea ice extent tihs year down
-            to low ice. According to the National Oceanic and Atmospheric
-            Administration, Ted, Scambos.
+          <PageTitle heading="Connect & Play">
+          PadelUp connects tennis enthusiasts and facilitates easy court reservations, making it simpler for players to find potential opponents and enjoy exciting matches.
           </PageTitle>
           <div className="mx-auto mb-48 mt-20 grid max-w-5xl grid-cols-1 gap-16 md:grid-cols-2 lg:grid-cols-3">
             {contactData.map(({ title, icon, description }) => (
