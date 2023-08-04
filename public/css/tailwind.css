@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-list-item-meta-description, 
+.ant-list-item-main,
+.ant-pagination-item:not(.ant-pagination-item-active) > a,
+.ant-pagination-item-ellipsis
+{
+    color:#fff !important;
+}

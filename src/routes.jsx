@@ -4,7 +4,12 @@ import {
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
+  SpeakerWaveIcon,
+  ClockIcon,
+  MegaphoneIcon,
+  UserIcon
 } from "@heroicons/react/24/solid";
+import News from "./pages/news";
 
 export const routes = [
   {
@@ -14,20 +19,18 @@ export const routes = [
     element: <Home />,
   },
   {
-    icon: UserCircleIcon,
-    name: "profile",
-    path: "/profile",
-    element: <Profile />,
+    icon: MegaphoneIcon,
+    name: "news",
+    path: "/news",
+    element: <News />,
   },
   {
-    icon: ArrowRightOnRectangleIcon,
-    name: "Sign In",
+    icon: ClockIcon,
     path: "/sign-in",
     element: <SignIn />,
   },
   {
-    icon: UserPlusIcon,
-    name: "Sign Up",
+    icon: UserIcon,
     path: "/sign-up",
     element: <SignUp />,
   }

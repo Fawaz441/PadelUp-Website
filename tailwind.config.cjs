@@ -6,7 +6,10 @@ module.exports = withMT({
   theme: {
     extend: {
       colors:{
-        primary:"#0100D5"
+        primary:"#0100D5",
+        green:"#BFFD01",
+        offWhite:"#F8FAFB",
+        lightBlue:"#D2DBF7"
       }
     },
   },

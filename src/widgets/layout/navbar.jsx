@@ -63,8 +63,9 @@ export function Navbar({ brandName, routes, action }) {
   return (
     <MTNavbar color="transparent" className="p-3">
       <div className="container mx-auto flex items-center justify-between text-white">
-        <Link to="/">
-          <Typography className="ml-2 mr-4 cursor-pointer py-1.5 font-bold">
+        <Link to="/" className="flex items-center space-x-1">
+          <img src="/img/logo.png" alt="Logo" className="h-20 w-20 object-contain"/>
+          <Typography className="mr-4 cursor-pointer py-1.5 font-bold">
             {brandName}
           </Typography>
         </Link>
@@ -106,7 +107,7 @@ export function Navbar({ brandName, routes, action }) {
 Navbar.defaultProps = {
   brandName: "Padel Up",
   action: (
-    <Button size="sm" fullWidth className="!bg-primary">
+    <Button className="bg-primary capitalize">
       Join Now
     </Button>
   )
