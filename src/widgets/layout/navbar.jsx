@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import {
@@ -9,9 +9,11 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import PhoneNumberModal from "../misc/phonenumber";
 
 export function Navbar({ brandName, routes, action }) {
   const [openNav, setOpenNav] = React.useState(false);
+  const [showPhoneModal, setShowPhoneModal] = useState(false);
 
   React.useEffect(() => {
     window.addEventListener(
@@ -22,15 +24,22 @@ export function Navbar({ brandName, routes, action }) {
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      {routes.map(({ name, path, icon, href, target }) => (
+      {routes.map(({ name, path, icon, href, target, id, showsModal }) => (
         <Typography
-          key={name}
+          key={name || id}
           as="li"
           variant="small"
           color="inherit"
           className="capitalize"
         >
-          {href ? (
+          {showsModal ? (
+            <button onClick={() => setShowPhoneModal(true)}>
+              {icon &&
+                React.createElement(icon, {
+                  className: "w-[18px] h-[18px] opacity-75 mr-1",
+                })}
+            </button>
+          ) : href ? (
             <a
               href={href}
               target={target}
@@ -62,18 +71,34 @@ export function Navbar({ brandName, routes, action }) {
 
   return (
     <MTNavbar color="transparent" className="p-3">
+      <PhoneNumberModal
+        visible={showPhoneModal}
+        onClose={() => setShowPhoneModal(false)}
+      />
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/" className="flex items-center space-x-1">
-          <img src="/img/logo.png" alt="Logo" className="h-20 w-20 object-contain"/>
+          <img
+            src="/img/logo.png"
+            alt="Logo"
+            className="h-20 w-20 object-contain"
+          />
           <Typography className="mr-4 cursor-pointer py-1.5 font-bold">
             {brandName}
           </Typography>
         </Link>
         <div className="hidden lg:block">{navList}</div>
         <div className="hidden gap-2 lg:flex">
-          {React.cloneElement(action, {
-            className: "hidden lg:inline-block",
-          })}
+          {React.cloneElement(
+            <Button
+              className="bg-primary capitalize"
+              onClick={() => setShowPhoneModal(true)}
+            >
+              Join Now
+            </Button>,
+            {
+              className: "w-full block",
+            }
+          )}
         </div>
         <IconButton
           variant="text"
@@ -95,9 +120,17 @@ export function Navbar({ brandName, routes, action }) {
       >
         <div className="container mx-auto">
           {navList}
-          {React.cloneElement(action, {
-            className: "w-full block",
-          })}
+          {React.cloneElement(
+            <Button
+              className="bg-primary capitalize"
+              onClick={() => setShowPhoneModal(true)}
+            >
+              Join Now
+            </Button>,
+            {
+              className: "w-full block",
+            }
+          )}
         </div>
       </MobileNav>
     </MTNavbar>
@@ -106,11 +139,7 @@ export function Navbar({ brandName, routes, action }) {
 
 Navbar.defaultProps = {
   brandName: "Padel Up",
-  action: (
-    <Button className="bg-primary capitalize">
-      Join Now
-    </Button>
-  )
+  action: <Button className="bg-primary capitalize">Join Now</Button>,
 };
 
 Navbar.propTypes = {

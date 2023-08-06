@@ -15,7 +15,7 @@ export const routes = [
   {
     icon: HomeIcon,
     name: "home",
-    path: "/home",
+    path: "/",
     element: <Home />,
   },
   {
@@ -27,12 +27,16 @@ export const routes = [
   {
     icon: ClockIcon,
     path: "/sign-in",
-    element: <SignIn />,
+    showsModal:true,
+    // element: <SignIn />,
+    id:"signin"
   },
   {
     icon: UserIcon,
     path: "/sign-up",
-    element: <SignUp />,
+    showsModal:true,
+    // element: <SignUp />,
+    id:"signup"
   }
 ];
 

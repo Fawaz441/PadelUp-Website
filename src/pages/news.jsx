@@ -32,7 +32,7 @@ const News = () => (
         }}
         dataSource={data}
         footer={
-          <div>
+          <div className="px-4">
             <b className="text-white">PadelUp</b>
           </div>
         }
@@ -46,6 +46,7 @@ const News = () => (
             // ]}
             extra={
               <img
+                className="hidden md:block"
                 width={272}
                 alt="logo"
                 src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"

@@ -2,10 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-.ant-list-item-meta-description, 
+.ant-list-item-meta-description,
 .ant-list-item-main,
 .ant-pagination-item:not(.ant-pagination-item-active) > a,
-.ant-pagination-item-ellipsis
-{
-    color:#fff !important;
+.ant-pagination-item-ellipsis {
+  color: #fff !important;
+}
+
+body {
+  overflow-x: hidden;
+}
+:where(.css-dev-only-do-not-override-19gw05y).ant-modal
+  .ant-modal-footer
+  .ant-btn
+  + .ant-btn:not(.ant-dropdown-trigger) {
+  background: #0100d5 !important;
+}
+
+
+.PhoneInputInput{
+  border:none;
+  outline:none;
 }

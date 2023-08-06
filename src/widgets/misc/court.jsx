@@ -4,7 +4,7 @@ import {
   MapPinIcon,
   UserGroupIcon,
   ArrowDownCircleIcon,
-  PlayCircleIcon
+  PlayCircleIcon,
 } from "@heroicons/react/24/solid";
 
 export function Court({
@@ -16,6 +16,8 @@ export function Court({
   area,
   players,
   price,
+  onSelect,
+  courtList,
 }) {
   return (
     <div>
@@ -41,9 +43,19 @@ export function Court({
                     </div>
                   </div>
                 </div>
-                <div className="mt-10 flex flex-col space-y-2 max-w-[250px] justify-center px-4 lg:order-3 lg:mt-0 lg:w-4/12 lg:justify-end lg:self-center">
-                  <Button className="bg-primary capitalize">Reserve</Button>
-                  <Button className="bg-green capitalize">View Details</Button>
+                <div className="mt-10 flex max-w-[250px] flex-col justify-center space-y-2 px-4 lg:order-3 lg:mt-0 lg:w-4/12 lg:justify-end lg:self-center">
+                  <Button
+                    className="bg-primary capitalize"
+                    onClick={() =>
+                      onSelect({
+                        list:courtList,
+                        name,
+                        location
+                      })
+                    }
+                  >
+                    Reserve
+                  </Button>
                 </div>
                 <div className="w-full px-4 lg:order-1 lg:w-4/12">
                   <div className="flex justify-center py-4 pt-8 lg:pt-4">
@@ -65,7 +77,7 @@ export function Court({
                   </div>
                 </div>
               </div>
-              <div className="my-8 text-center rounded-[10px] bg-[#D2DBF7]/[.2] p-4">
+              <div className="my-8 rounded-[10px] bg-[#D2DBF7]/[.2] p-4 text-center">
                 <Typography variant="h2" color="blue-gray" className="mb-2">
                   {name}
                 </Typography>
@@ -93,7 +105,6 @@ export function Court({
                     {area} m2
                   </Typography>
                 </div>
-                
               </div>
 
               <div className="mb-10 border-t border-blue-gray-50 py-6 text-center">
