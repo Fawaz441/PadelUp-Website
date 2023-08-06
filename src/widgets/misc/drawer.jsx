@@ -113,6 +113,8 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
     }
   }, [selectedCourt]);
 
+  const drawerWidth = window.innerWidth <= 320 ? 0.8 * window.innerWidth: 320
+
   return (
     <>
       <Modal
@@ -133,7 +135,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
       </Modal>
       <Drawer
         title={<h3 className="font-bold text-primary">Select Court</h3>}
-        width={520}
+        width={drawerWidth}
         closable={false}
         onClose={onClose}
         className="bg-lightBlue"
@@ -164,7 +166,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
         </div>
         <Drawer
           title={<h3 className="font-bold text-primary">Select Date & Time</h3>}
-          width={320}
+          width={drawerWidth}
           closable={false}
           onClose={() => setSelectedCourt(null)}
           open={!!selectedCourt}
@@ -203,7 +205,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
           )}
           <Drawer
             title={<h3 className="font-bold text-primary">Select Court</h3>}
-            width={320}
+            width={drawerWidth}
             closable={false}
             onClose={() => setSelectedTime(null)}
             open={!!selectedTime}
@@ -226,7 +228,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
               title={
                 <h3 className="font-bold text-primary">Confirm Details</h3>
               }
-              width={320}
+              width={drawerWidth}
               closable={false}
               onClose={() => setSelectedField(null)}
               open={!!selectedField}
