@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
@@ -13,6 +13,8 @@ import { useForm, Controller } from "react-hook-form";
 import validators from "@/utils";
 import { showError } from "@/widgets/misc/alert";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
+import { useAuth } from "@/helpers";
+import { useEffect } from "react";
 
 export function SignIn() {
   const {
@@ -26,9 +28,19 @@ export function SignIn() {
     },
   });
 
+  const navigate = useNavigate();
+  const { login, user } = useAuth();
+
   const onSubmit = async (data) => {
     console.log(JSON.stringify(data));
+    login(data);
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   return (
     <div>
@@ -61,7 +73,7 @@ export function SignIn() {
                     onChange={onChange}
                     className="rounded border border-[#ccc] p-2"
                     defaultCountry="EG"
-                    style={errors.phone_number && {borderColor:"red"}}
+                    style={errors.phone_number && { borderColor: "red" }}
                   />
                 </div>
               )}
@@ -87,7 +99,11 @@ export function SignIn() {
             </div> */}
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth onClick={handleSubmit(onSubmit)}>
+            <Button
+              variant="gradient"
+              fullWidth
+              onClick={handleSubmit(onSubmit)}
+            >
               Sign In
             </Button>
             <Typography variant="small" className="mt-6 flex justify-center">

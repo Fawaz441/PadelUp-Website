@@ -10,11 +10,13 @@ import {
 } from "@material-tailwind/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import PhoneNumberModal from "../misc/phonenumber";
+import { useAuth } from "@/helpers";
 
 export function Navbar({ brandName, routes, action }) {
   const [openNav, setOpenNav] = React.useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -22,6 +24,10 @@ export function Navbar({ brandName, routes, action }) {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+
+  if (user) {
+    return null;
+  }
 
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -56,7 +62,7 @@ export function Navbar({ brandName, routes, action }) {
             <Link
               to={path}
               target={target}
-              onClick={()=>setOpenNav(false)}
+              onClick={() => setOpenNav(false)}
               className="flex items-center gap-1 p-1 font-normal"
             >
               {icon &&

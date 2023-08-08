@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.5",
     "@headlessui/react": "^1.7.16",
     "@heroicons/react": "^2.0.12",
     "@material-tailwind/react": "^1.2.4",

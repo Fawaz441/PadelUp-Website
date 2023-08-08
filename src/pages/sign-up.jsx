@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DatePicker, Radio } from "antd";
 import {
   Card,
@@ -16,6 +16,8 @@ import PhoneInput, {
 } from "react-phone-number-input";
 import validators from "@/utils";
 import { showError } from "@/widgets/misc/alert";
+import { useEffect } from "react";
+import { useAuth } from "@/helpers";
 
 function transformDateFormat(inputDate) {
   const parts = inputDate.split("-"); // Split the input date by hyphens
@@ -28,6 +30,7 @@ function transformDateFormat(inputDate) {
 }
 
 export function SignUp() {
+  const navigate = useNavigate();
   const {
     control,
     formState: { errors },
@@ -47,6 +50,8 @@ export function SignUp() {
     },
   });
 
+  const { login, user } = useAuth();
+
   const onSubmit = async (data) => {
     if (data.password !== data.confirm_password) {
       showError("Passwords do not match", false, true, "OK");
@@ -61,9 +66,16 @@ export function SignUp() {
         mobile: nationalNumber,
         dob: transformDateFormat(dob.dateString),
       };
+      login(payload)
       console.log(JSON.stringify(payload));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user]);
 
   return (
     <>
