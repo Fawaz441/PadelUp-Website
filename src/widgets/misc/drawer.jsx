@@ -8,10 +8,12 @@ import {
   ArrowLongLeftIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+import { Button } from "@material-tailwind/react";
 import MySwal from "./alert";
 import moment from "moment";
 import apiInstance from "@/api/instance";
 import Loader from "./loader";
+import { useNavigate } from "react-router-dom";
 
 function addMinutesToTime(timeString, minutesToAdd) {
   // Parse the input time string to extract hours, minutes, and AM/PM indicator
@@ -101,7 +103,6 @@ const ReservationDrawer = ({
     }
   };
 
-
   const onChange = (value, dateString) => {
     setSelectedDate(value);
     if (dateString) {
@@ -139,6 +140,7 @@ const ReservationDrawer = ({
     }
   }, [selectedCourt]);
 
+  const navigate = useNavigate();
   const drawerWidth = window.innerWidth <= 320 ? 0.8 * window.innerWidth : 320;
 
   return (
@@ -160,7 +162,14 @@ const ReservationDrawer = ({
         </Radio.Group>
       </Modal>
       <Drawer
-        title={<h3 className="font-euclid_bold text-primary">Select Court</h3>}
+        title={
+          <div className="flex items-center justify-between">
+            <h3 className="font-euclid_bold text-primary">Select Court</h3>
+            <Button variant="gradient" onClick={() => navigate("/sign-up")}>
+              Sign Up
+            </Button>
+          </div>
+        }
         width={drawerWidth}
         closable={false}
         onClose={onClose}
@@ -194,9 +203,14 @@ const ReservationDrawer = ({
         </div>
         <Drawer
           title={
-            <h3 className="font-euclid_bold text-primary">
-              Select Date & Time
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="font-euclid_bold text-primary">
+                Select Date & Time
+              </h3>
+              <Button variant="gradient" onClick={() => navigate("/sign-up")}>
+                Sign Up
+              </Button>
+            </div>
           }
           width={drawerWidth}
           closable={false}
@@ -245,7 +259,12 @@ const ReservationDrawer = ({
           )}
           <Drawer
             title={
-              <h3 className="font-euclid_bold text-primary">Select Court</h3>
+              <div className="flex items-center justify-between">
+                <h3 className="font-euclid_bold text-primary">Select Court</h3>
+                <Button variant="gradient" onClick={() => navigate("/sign-up")}>
+                  Sign Up
+                </Button>
+              </div>
             }
             width={drawerWidth}
             closable={false}
@@ -274,9 +293,17 @@ const ReservationDrawer = ({
             </div>
             <Drawer
               title={
-                <h3 className="font-euclid_bold text-primary">
-                  Confirm Details
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-euclid_bold text-primary">
+                    Confirm Details
+                  </h3>
+                  <Button
+                    variant="gradient"
+                    onClick={() => navigate("/sign-up")}
+                  >
+                    Sign Up
+                  </Button>
+                </div>
               }
               width={drawerWidth}
               closable={false}
@@ -288,7 +315,7 @@ const ReservationDrawer = ({
                   <img
                     src={selectedField?.images?.[0]}
                     alt={selectedField?.name}
-                    className="absolute left-0 top-0 h-full w-full object-cover rounded-lg"
+                    className="absolute left-0 top-0 h-full w-full rounded-lg object-cover"
                   />
                 </div>
                 <div className="flex flex-col space-y-1">

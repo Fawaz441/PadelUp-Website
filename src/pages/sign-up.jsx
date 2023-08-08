@@ -18,15 +18,14 @@ import validators from "@/utils";
 import { showError } from "@/widgets/misc/alert";
 
 function transformDateFormat(inputDate) {
-  const parts = inputDate.split('-'); // Split the input date by hyphens
+  const parts = inputDate.split("-"); // Split the input date by hyphens
   if (parts.length === 3) {
     const [year, month, day] = parts;
     return `${day}-${month}-${year}`;
   } else {
-    throw new Error('Invalid date format');
+    throw new Error("Invalid date format");
   }
 }
-
 
 export function SignUp() {
   const {
@@ -48,12 +47,13 @@ export function SignUp() {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (data.password !== data.confirm_password) {
       showError("Passwords do not match", false, true, "OK");
     } else {
       const { dob, phone_number, ...rest } = data;
-      const {countryCallingCode,nationalNumber} = parsePhoneNumber(phone_number);
+      const { countryCallingCode, nationalNumber } =
+        parsePhoneNumber(phone_number);
       const payload = {
         ...rest,
         full_mobile: phone_number,
@@ -89,6 +89,7 @@ export function SignUp() {
               render={({ field }) => (
                 <Input
                   variant="standard"
+                  autoFocus
                   label="First Name"
                   size="lg"
                   error={errors.first_name}
@@ -191,7 +192,7 @@ export function SignUp() {
             />
             {/* phone number */}
             <Controller
-              rules={(x) => isValidPhoneNumber(x)}
+              rules={{ validate: (x) => isValidPhoneNumber(x) }}
               control={control}
               name="phone_number"
               render={({ field: { onChange, value } }) => (
@@ -203,6 +204,7 @@ export function SignUp() {
                     onChange={onChange}
                     className="rounded border border-[#ccc] p-2"
                     defaultCountry="EG"
+                    style={errors.phone_number && { borderColor: "red" }}
                   />
                 </div>
               )}
