@@ -50,34 +50,6 @@ function addMinutesToTime(timeString, minutesToAdd) {
   return newTimeString;
 }
 
-const times = [
-  { value: "12:00PM", disabled: false },
-  { value: "12:30PM", disabled: true },
-  { value: "1:00PM", disabled: false },
-  { value: "1:30PM", disabled: true },
-  { value: "2:00PM", disabled: false },
-  { value: "2:30PM", disabled: false },
-  { value: "3:00PM", disabled: true },
-  { value: "3:30PM", disabled: false },
-  { value: "4:00PM", disabled: false },
-  { value: "4:30PM", disabled: true },
-  { value: "5:00PM", disabled: false },
-  { value: "5:30PM", disabled: false },
-  { value: "6:00PM", disabled: true },
-  { value: "6:30PM", disabled: false },
-  { value: "7:00PM", disabled: false },
-  { value: "7:30PM", disabled: true },
-  { value: "8:00PM", disabled: false },
-  { value: "8:30PM", disabled: false },
-  { value: "9:00PM", disabled: true },
-  { value: "9:30PM", disabled: false },
-  { value: "10:00PM", disabled: false },
-  { value: "10:30PM", disabled: true },
-  { value: "11:00PM", disabled: false },
-];
-
-const courtNames = [{ name: "Padel Court 1" }, { name: "Padel Court 2" }];
-
 const ReservationDrawer = ({
   selectedCourt: selected,
   onClose,

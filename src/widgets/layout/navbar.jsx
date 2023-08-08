@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Navbar as MTNavbar,
   MobileNav,
@@ -14,6 +14,7 @@ import PhoneNumberModal from "../misc/phonenumber";
 export function Navbar({ brandName, routes, action }) {
   const [openNav, setOpenNav] = React.useState(false);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     window.addEventListener(
@@ -55,6 +56,7 @@ export function Navbar({ brandName, routes, action }) {
             <Link
               to={path}
               target={target}
+              onClick={()=>setOpenNav(false)}
               className="flex items-center gap-1 p-1 font-normal"
             >
               {icon &&
@@ -91,7 +93,7 @@ export function Navbar({ brandName, routes, action }) {
           {React.cloneElement(
             <Button
               className="bg-primary capitalize"
-              onClick={() => setShowPhoneModal(true)}
+              onClick={() => navigate("/sign-up")}
             >
               Join Now
             </Button>,
@@ -123,7 +125,7 @@ export function Navbar({ brandName, routes, action }) {
           {React.cloneElement(
             <Button
               className="bg-primary capitalize"
-              onClick={() => setShowPhoneModal(true)}
+              onClick={() => navigate("/sign-up")}
             >
               Join Now
             </Button>,

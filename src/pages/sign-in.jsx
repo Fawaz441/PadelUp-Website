@@ -13,14 +13,11 @@ import { SimpleFooter } from "@/widgets/layout";
 
 export function SignIn() {
   return (
-    <>
-      <img
-        src="/img/background-2.jpg"
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 z-0 h-full w-full bg-black/50" />
+    <div>
+      <div className="fixed top-0 h-full w-full  bg-[url('https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80')] bg-cover bg-center" />
+      <div className="fixed top-0 left-0 inset-0 z-0 h-full w-full bg-black/50" />
       <div className="container mx-auto p-4">
-        <Card className="absolute top-2/4 left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4">
+        <Card className="absolute top-[400px] left-2/4 w-full max-w-[24rem] -translate-y-2/4 -translate-x-2/4">
           <CardHeader
             variant="gradient"
             color="blue"
@@ -62,10 +59,7 @@ export function SignIn() {
           </CardFooter>
         </Card>
       </div>
-      <div className="container absolute bottom-6 left-2/4 z-10 mx-auto -translate-x-2/4 text-white">
-        <SimpleFooter />
-      </div>
-    </>
+    </div>
   );
 }
 

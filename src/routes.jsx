@@ -27,16 +27,16 @@ export const routes = [
   {
     icon: ClockIcon,
     path: "/sign-in",
-    showsModal:true,
-    // element: <SignIn />,
-    id:"signin"
+    element: <SignIn />,
+    id:"signin",
+    name: "Sign in",
   },
   {
     icon: UserIcon,
     path: "/sign-up",
-    showsModal:true,
-    // element: <SignUp />,
-    id:"signup"
+    element: <SignUp />,
+    id:"signup",
+    name: "Sign up",
   }
 ];
 
