@@ -8,6 +8,10 @@ import {
   ArrowLongLeftIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/solid";
+import MySwal from "./alert";
+import moment from "moment";
+import apiInstance from "@/api/instance";
+import Loader from "./loader";
 
 function addMinutesToTime(timeString, minutesToAdd) {
   // Parse the input time string to extract hours, minutes, and AM/PM indicator
@@ -74,18 +78,67 @@ const times = [
 
 const courtNames = [{ name: "Padel Court 1" }, { name: "Padel Court 2" }];
 
-const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal }) => {
+const ReservationDrawer = ({
+  selectedCourt: selected,
+  onClose,
+  displayPhoneModal,
+  categories,
+}) => {
   const [selectedCourt, setSelectedCourt] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [selectedField, setSelectedField] = useState(null);
   const [selectedPaymentType, setSelectedPaymentType] = useState("card");
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [loadingAvailableTimes, setLoadingAvailableTimes] = useState(false);
+  const [availableCourts, setAvailableCourts] = useState([]);
+
+  useEffect(() => {
+    if (selectedTime) {
+      setAvailableCourts(
+        categories?.courts.filter((x) =>
+          (selectedTime?.matching_courts || []).includes(x.id)
+        )
+      );
+    } else {
+      setAvailableCourts([]);
+    }
+  }, [selectedTime]);
+
+  const getAvailableTimes = async (dateString, duration) => {
+    setLoadingAvailableTimes(true);
+    try {
+      const { data } = await apiInstance.getAvailableTimes(
+        dateString,
+        duration
+      );
+      setAvailableTimes(data.data);
+      setLoadingAvailableTimes(false);
+    } catch (e) {
+      MySwal.fire({
+        icon: "error",
+        title: "Oops...",
+        confirmButtonText: "Retry",
+        text: "Something went wrong!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          getAvailableTimes(dateString, duration);
+        }
+      });
+    }
+  };
+
 
   const onChange = (value, dateString) => {
-    console.log("Selected Time: ", value);
-    console.log("Formatted Selected Time: ", dateString);
     setSelectedDate(value);
+    if (dateString) {
+      getAvailableTimes(dateString, selectedCourt.duration);
+    } else {
+      if (availableTimes.length !== 0) {
+        setAvailableTimes([]);
+      }
+    }
   };
 
   const onOk = (value) => {
@@ -94,12 +147,12 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
 
   const disabledDate = (current) => {
     // Can not select days before today and today
-    return current < dayjs().endOf("day");
+    return current && current.isBefore(moment(), "day");
   };
 
   const onPaymentMethodChange = (e) => {
     setSelectedPaymentType(e.target.value);
-    setShowPaymentModal(false)
+    setShowPaymentModal(false);
   };
 
   useEffect(() => {
@@ -110,10 +163,11 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
       setSelectedField(null);
       setSelectedPaymentType("card");
       setShowPaymentModal(false);
+      setAvailableCourts([]);
     }
   }, [selectedCourt]);
 
-  const drawerWidth = window.innerWidth <= 320 ? 0.8 * window.innerWidth: 320
+  const drawerWidth = window.innerWidth <= 320 ? 0.8 * window.innerWidth : 320;
 
   return (
     <>
@@ -134,7 +188,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
         </Radio.Group>
       </Modal>
       <Drawer
-        title={<h3 className="font-bold text-primary">Select Court</h3>}
+        title={<h3 className="font-euclid_bold text-primary">Select Court</h3>}
         width={drawerWidth}
         closable={false}
         onClose={onClose}
@@ -156,16 +210,22 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
                 <span className="text-[20px] text-white">{court.duration}</span>
               </div>
               <div className="flex flex-col space-y-1">
-                <h3 className="text-[20px] font-bold text-black">
+                <h3 className="font-euclid_bold text-[20px] text-black">
                   {court.duration} minutes
                 </h3>
-                <h3 className="text-[16px] text-[#ccc]">{court.price}</h3>
+                <h3 className="text-[16px] text-[#ccc]">
+                  {court.cost} {categories?.currency}
+                </h3>
               </div>
             </div>
           ))}
         </div>
         <Drawer
-          title={<h3 className="font-bold text-primary">Select Date & Time</h3>}
+          title={
+            <h3 className="font-euclid_bold text-primary">
+              Select Date & Time
+            </h3>
+          }
           width={drawerWidth}
           closable={false}
           onClose={() => setSelectedCourt(null)}
@@ -180,45 +240,61 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
             open={!selectedDate && !!selectedCourt}
           />
           {selectedDate && (
-            <div className="mt-8 grid grid-cols-3 gap-2">
-              {times.map((time, index) => (
-                <button
-                  key={index}
-                  onClick={() => setSelectedTime(time)}
-                  disabled={time.disabled}
-                  className={classNames(
-                    "flex h-10 items-center justify-center rounded-lg border border-[grey] bg-white disabled:cursor-not-allowed",
-                    { "!bg-[grey]/[.2]": time.disabled },
-                    { "!bg-primary/[.2]": selectedTime === time }
-                  )}
-                >
-                  <span
-                    className={classNames("text-base text-primary", {
-                      "!text-[grey]": time.disabled,
-                    })}
-                  >
-                    {time.value}
-                  </span>
-                </button>
-              ))}
+            <div>
+              {loadingAvailableTimes ? (
+                <div className="flex items-center justify-center p-4">
+                  <Loader loading />
+                </div>
+              ) : (
+                <div className="mt-8 grid grid-cols-3 gap-2">
+                  {availableTimes.map((time, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedTime(time)}
+                      disabled={time.disabled}
+                      className={classNames(
+                        "flex h-10 items-center justify-center rounded-lg border border-[grey] bg-white disabled:cursor-not-allowed",
+                        { "!bg-[grey]/[.2]": time.disabled },
+                        { "!bg-primary/[.2]": selectedTime === time }
+                      )}
+                    >
+                      <span
+                        className={classNames("text-base text-primary", {
+                          "!text-[grey]": time.disabled,
+                        })}
+                      >
+                        {time.time}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
           <Drawer
-            title={<h3 className="font-bold text-primary">Select Court</h3>}
+            title={
+              <h3 className="font-euclid_bold text-primary">Select Court</h3>
+            }
             width={drawerWidth}
             closable={false}
             onClose={() => setSelectedTime(null)}
             open={!!selectedTime}
           >
             <div className="flex flex-col space-y-5">
-              {courtNames.map((court, index) => (
+              {(availableCourts || []).map((court, index) => (
                 <div
                   onClick={() => setSelectedField(court)}
                   className="flex cursor-pointer flex-col items-center justify-center space-y-2"
                   key={index}
                 >
-                  <div className="h-[200px] w-[200px] rounded-lg border border-primary" />
-                  <span className="text-center text-base font-bold text-black">
+                  <div className="relative h-[200px] w-[200px] rounded-lg border border-primary">
+                    <img
+                      src={court?.images?.[0]}
+                      alt={court.name}
+                      className="absolute left-0 top-0 h-full w-full object-cover"
+                    />
+                  </div>
+                  <span className="text-center font-euclid_bold text-base text-black">
                     {court.name}
                   </span>
                 </div>
@@ -226,7 +302,9 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
             </div>
             <Drawer
               title={
-                <h3 className="font-bold text-primary">Confirm Details</h3>
+                <h3 className="font-euclid_bold text-primary">
+                  Confirm Details
+                </h3>
               }
               width={drawerWidth}
               closable={false}
@@ -234,9 +312,15 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
               open={!!selectedField}
             >
               <div className="flex items-center space-x-2">
-                <div className="h-[100px] w-[100px] flex-shrink-0 rounded-lg border border-primary" />
+                <div className="relative h-[100px] w-[100px] flex-shrink-0 rounded-lg border border-primary">
+                  <img
+                    src={selectedField?.images?.[0]}
+                    alt={selectedField?.name}
+                    className="absolute left-0 top-0 h-full w-full object-cover rounded-lg"
+                  />
+                </div>
                 <div className="flex flex-col space-y-1">
-                  <h3 className="text[20px] font-bold text-black">
+                  <h3 className="text[20px] font-euclid_bold text-black">
                     {selected?.name}
                   </h3>
                   <div className="flex space-x-1">
@@ -283,7 +367,7 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
                   </div>
                   <div className="flex flex-col space-y-1">
                     <h3 className="text-right">Amount</h3>
-                    <span className="text-right">{selectedCourt?.price}</span>
+                    <span className="text-right">{selectedCourt?.cost}</span>
                   </div>
                 </div>
                 {/* payment method */}
@@ -300,7 +384,10 @@ const ReservationDrawer = ({ selectedCourt: selected, onClose, displayPhoneModal
                   </div>
                 </div>
               </div>
-              <button className="mt-5 w-full rounded-md bg-primary py-3 font-bold text-white" onClick={displayPhoneModal}>
+              <button
+                className="mt-5 w-full rounded-md bg-primary py-3 font-euclid_bold text-white"
+                onClick={displayPhoneModal}
+              >
                 Confirm
               </button>
             </Drawer>

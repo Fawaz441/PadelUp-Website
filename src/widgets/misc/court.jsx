@@ -6,6 +6,8 @@ import {
   ArrowDownCircleIcon,
   PlayCircleIcon,
 } from "@heroicons/react/24/solid";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 export function Court({
   name,
@@ -30,27 +32,26 @@ export function Court({
           <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-3xl bg-white shadow-xl shadow-gray-500/5">
             {isFirst && <div className="pt-[100px]" />}
             <div className="px-6">
-              <div className="flex flex-wrap justify-center">
-                <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12">
-                  <div className="relative">
-                    <div className="-mt-20 w-40">
-                      <Avatar
-                        src="/img/team-2.jpg"
-                        alt="Profile picture"
-                        variant="circular"
-                        className="h-full w-full shadow-xl"
-                      />
-                    </div>
+              <Carousel
+                showThumbs={false}
+                showStatus={false}
+              >
+                {(courts||[]).map((court) => (
+                  <div key={court.id} className="w-[200px] flex items-center justify-center flex-col mx-auto">
+                    <img className="h-[200px] w-[200px] object-cover" src={court.image} alt={court.name} />
                   </div>
-                </div>
+                ))}
+              </Carousel>
+              <div className="flex flex-wrap justify-center">
+                <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12"></div>
                 <div className="mt-10 flex max-w-[250px] flex-col justify-center space-y-2 px-4 lg:order-3 lg:mt-0 lg:w-4/12 lg:justify-end lg:self-center">
                   <Button
                     className="bg-primary capitalize"
                     onClick={() =>
                       onSelect({
-                        list:courtList,
+                        list: courtList,
                         name,
-                        location
+                        location,
                       })
                     }
                   >
@@ -63,7 +64,7 @@ export function Court({
                       <Typography
                         variant="lead"
                         color="blue-gray"
-                        className="font-bold uppercase"
+                        className="font-euclid_bold uppercase"
                       >
                         {price} / Hour
                       </Typography>
@@ -90,7 +91,7 @@ export function Court({
                 <div className="mb-2 flex items-center justify-center gap-2">
                   <PlayCircleIcon className="-mt-px h-4 w-4 text-blue-gray-700" />
                   <Typography className="font-medium text-blue-gray-700">
-                    {courts} Courts
+                    {courts?.length} Courts
                   </Typography>
                 </div>
                 <div className="mb-2 flex items-center justify-center gap-2">
@@ -102,7 +103,7 @@ export function Court({
                 <div className="mb-2 flex items-center justify-center gap-2">
                   <ArrowDownCircleIcon className="-mt-px h-4 w-4 text-blue-gray-700" />
                   <Typography className="font-medium text-blue-gray-700">
-                    {area} m2
+                    {area}m<sup>2</sup>
                   </Typography>
                 </div>
               </div>

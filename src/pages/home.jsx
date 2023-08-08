@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardBody,
@@ -16,6 +16,9 @@ import { featuresData, teamData, contactData } from "@/data";
 import Court from "@/widgets/misc/court";
 import ReservationDrawer from "@/widgets/misc/drawer";
 import PhoneNumberModal from "@/widgets/misc/phonenumber";
+import apiInstance from "@/api/instance";
+import Loader from "@/widgets/misc/loader";
+import MySwal from "@/widgets/misc/alert";
 
 const courtList = [
   { duration: 30, price: "250 EGP" },
@@ -63,11 +66,49 @@ const courts = [
 ];
 
 export function Home() {
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState(null);
+
   const [selectedCourt, setSelectedCourt] = useState(null);
   const [showPhoneModal, setShowPhoneModal] = useState(false);
 
+  const getCategories = async () => {
+    try {
+      if(!loading){
+        setLoading(true)
+      }
+      const { data } = await apiInstance.getCategories();
+      setCategories(data.data);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      MySwal.fire({
+        icon: "error",
+        title: "Oops...",
+        confirmButtonText: "Retry",
+        text: "Something went wrong!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          getCategories();
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
+
   const displayPhoneModal = () => {
-    setShowPhoneModal(true)
+    setShowPhoneModal(true);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex h-screen flex-1 items-center justify-center">
+        <Loader loading />
+      </div>
+    );
   }
 
   return (
@@ -76,26 +117,26 @@ export function Home() {
         selectedCourt={selectedCourt}
         onClose={() => setSelectedCourt(null)}
         displayPhoneModal={displayPhoneModal}
+        categories={categories}
       />
       <PhoneNumberModal
         visible={showPhoneModal}
         onClose={() => setShowPhoneModal(false)}
       />
-      {courts.map((court, index) => (
+      {categories && (
         <Court
-          isFirst={index === 0}
-          key={index}
-          name={court.name}
-          location={court.location}
-          description={court.description}
-          price={court.price}
-          courts={court.courts}
-          players={court.players}
-          area={court.area}
+          isFirst={true}
+          name={categories?.name}
+          location={categories?.address?.fullAddress}
+          description={categories?.description}
+          price={`${categories?.price} ${categories?.currency}`}
+          courts={categories?.courts}
+          players={"2-4"}
+          area={200}
           onSelect={setSelectedCourt}
-          courtList={court.courtList}
+          courtList={categories?.services}
         />
-      ))}
+      )}
     </div>
   );
 }

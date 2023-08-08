@@ -82,7 +82,7 @@ export function Navbar({ brandName, routes, action }) {
             alt="Logo"
             className="h-20 w-20 object-contain"
           />
-          <Typography className="mr-4 cursor-pointer py-1.5 font-bold">
+          <Typography className="mr-4 cursor-pointer py-1.5 font-euclid_bold">
             {brandName}
           </Typography>
         </Link>

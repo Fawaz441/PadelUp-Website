@@ -63,7 +63,7 @@ function PhoneNumberModal({ visible, onClose }) {
           <div className="mt-2 flex">
             <button
               onClick={sendOtp}
-              className="ml-auto rounded-md bg-primary p-2 font-bold text-white disabled:cursor-not-allowed disabled:opacity-5"
+              className="ml-auto rounded-md bg-primary p-2 font-euclid_bold text-white disabled:cursor-not-allowed disabled:opacity-5"
               disabled={
                 sendingOtp || (value ? !isValidPhoneNumber(value) : true)
               }
@@ -85,7 +85,7 @@ function PhoneNumberModal({ visible, onClose }) {
             renderInput={(props) => (
               <input
                 {...props}
-                className="h-10 !w-10 rounded-lg border border-[grey] font-bold text-black outline-none"
+                className="h-10 !w-10 rounded-lg border border-[grey] font-euclid_bold text-black outline-none"
               />
             )}
           />
@@ -93,7 +93,7 @@ function PhoneNumberModal({ visible, onClose }) {
             <button
               // onClick={sendOtp}
               disabled={sendingOtp}
-              className="w-[200px] rounded-md bg-primary p-2 font-bold text-white disabled:cursor-not-allowed disabled:opacity-5"
+              className="w-[200px] rounded-md bg-primary p-2 font-euclid_bold text-white disabled:cursor-not-allowed disabled:opacity-5"
             >
               Verify
             </button>

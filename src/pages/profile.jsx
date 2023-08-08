@@ -38,7 +38,7 @@ export function Profile() {
                       <Typography
                         variant="lead"
                         color="blue-gray"
-                        className="font-bold uppercase"
+                        className="font-euclid_bold uppercase"
                       >
                         22
                       </Typography>
@@ -53,7 +53,7 @@ export function Profile() {
                       <Typography
                         variant="lead"
                         color="blue-gray"
-                        className="font-bold uppercase"
+                        className="font-euclid_bold uppercase"
                       >
                         10
                       </Typography>
@@ -68,7 +68,7 @@ export function Profile() {
                       <Typography
                         variant="lead"
                         color="blue-gray"
-                        className="font-bold uppercase"
+                        className="font-euclid_bold uppercase"
                       >
                         89
                       </Typography>

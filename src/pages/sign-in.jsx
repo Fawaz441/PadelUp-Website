@@ -53,7 +53,7 @@ export function SignIn() {
                   as="span"
                   variant="small"
                   color="blue"
-                  className="ml-1 font-bold"
+                  className="ml-1 font-euclid_bold"
                 >
                   Sign up
                 </Typography>
