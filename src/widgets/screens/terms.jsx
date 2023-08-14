@@ -118,14 +118,26 @@ const Terms = () => {
             </p>
             <br />
             <br />
-            <h2>9. Termination:</h2>
+            <h2>9. Add another credit card::</h2>
+            <p>
+              NOTE: Credit card is only required to create your account, players still
+              have the option to pay cash, internal wallet, external wallet, or
+              automatically by credit card
+            </p>
+            <br />
+            When entering credit card; and later in profile/account settings there
+            must be check box icon {'>'} choose this method of payment as your
+            preferred method of payment.
+            <br />
+
+            <h2>10. Termination:</h2>
             <p>
               PadelUp reserves the right to suspend or terminate accounts that
               violate our terms or engage in harmful activities.
             </p>
             <br />
             <br />
-            <h2>10. Contact Us:</h2>
+            <h2>11. Contact Us:</h2>
             <p>
               If you have any questions or concerns regarding these terms,
               please contact us at [contact email/phone number].

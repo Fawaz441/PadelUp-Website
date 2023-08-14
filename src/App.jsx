@@ -3,6 +3,7 @@ import { Navbar } from "@/widgets/layout";
 import routes from "@/routes";
 import Main from "./pages/main";
 import { AuthProvider, RequiresAuth } from "./helpers";
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Toaster />
     </AuthProvider>
   );
 }

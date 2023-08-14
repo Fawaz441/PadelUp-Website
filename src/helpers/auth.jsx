@@ -44,6 +44,10 @@ export const AuthProvider = ({ children }) => {
     // };
   };
 
+  const signup = async (data) => {
+    console.log(data)
+  }
+
   const logout = async () => {
     localStorage.removeItem("HH-AA");
     setUser(null);
@@ -64,6 +68,7 @@ export const AuthProvider = ({ children }) => {
         user,
         login,
         logout,
+        signup
       }}
     >
       {children}
