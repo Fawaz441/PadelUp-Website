@@ -1,44 +1,52 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Breadcrumb, Layout, theme, Divider } from "antd";
 import { Descriptions } from "antd";
 import { CardBody } from "@material-tailwind/react";
+import { useAuth } from "@/helpers";
 const { Content } = Layout;
 
-const items = [
-  {
-    key: "1",
-    label: "UserName",
-    children: "Zhou Maomao",
-  },
-  {
-    key: "2",
-    label: "Telephone",
-    children: "1810000000",
-  },
-  {
-    key: "3",
-    label: "Live",
-    children: "Hangzhou, Zhejiang",
-  },
-  {
-    key: "4",
-    label: "Remark",
-    children: "empty",
-  },
-  {
-    key: "5",
-    label: "Address",
-    children: "No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China",
-  },
-];
+
 const UserInfo = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const { user } = useAuth()
 
-   // Wallet information
-   const walletBalance = 0; // Default wallet balance
-   const currency = "LE"; // Currency
+  // Wallet information
+  const currency = "LE"; // Currency
+
+  const items = useMemo(() => [
+    {
+      key: "1",
+      label: "username",
+      children: user?.username,
+    },
+    {
+      key: "2",
+      label: "Telephone",
+      children: user?.mobile,
+    },
+    {
+      key: "3",
+      label: "Name",
+      children: user?.fullName,
+    },
+    {
+      key: "4",
+      label: "Skill Level",
+      children: user.skill_level,
+    },
+    {
+      key: "5",
+      label: "Gender",
+      children: user.gender
+    },
+    {
+      key: "6",
+      label: "Email",
+      children: user.email
+    },
+  ], [user]);
 
   return (
     <Content
@@ -64,7 +72,7 @@ const UserInfo = () => {
         <CardBody>
           <Descriptions title="User Info" items={items} />
           <Divider />
-          <Descriptions style={{ fontSize: '20px' }} title="Wallet" items={[{ label: "Balance", children: `${walletBalance} ${currency}` }]} />
+          <Descriptions style={{ fontSize: '20px' }} title="Wallet" items={[{ label: "Balance", children: `${user.walletAmount} ${currency}` }]} />
         </CardBody>
       </div>
     </Content>

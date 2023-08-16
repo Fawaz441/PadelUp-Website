@@ -5,13 +5,11 @@ import {
   CardBody,
   CardFooter,
   Input,
-  Checkbox,
   Button,
   Typography,
 } from "@material-tailwind/react";
 import { useForm, Controller } from "react-hook-form";
 import validators from "@/utils";
-import { showError } from "@/widgets/misc/alert";
 import PhoneInput, { isValidPhoneNumber } from "react-phone-number-input";
 import { useAuth } from "@/helpers";
 import { useEffect, useState } from "react";
@@ -19,6 +17,9 @@ import SocialButton from "@/widgets/buttons/social-button";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import classNames from "classnames";
 import authAPIs from "@/api/auth";
+import { parsePhoneNumber } from "react-phone-number-input";
+import Spinner from "@/widgets/misc/spinner";
+import { toast } from "react-hot-toast";
 
 function isAppleDevice() {
   const userAgent = navigator.userAgent.toLowerCase();
@@ -51,14 +52,19 @@ export function SignIn() {
   const onSubmit = async (userInfo) => {
     setLoading(true)
     try {
-      const { data } = await authAPIs.login(userInfo)
-      console.log(data)
+      const formData = new FormData()
+      const { nationalNumber } =
+        parsePhoneNumber(userInfo.phone_number);
+      formData.append("loginCredentials[mobile]", nationalNumber)
+      formData.append("loginCredentials[password]", userInfo.password)
+      const { data } = await authAPIs.login(formData)
+      const { token, data: info } = data;
+      login(token, info)
     }
     catch (e) {
       setLoading(false)
+      toast.error("Invalid credentials")
     }
-    // console.log(JSON.stringify(userInfo));
-    // login(userInfo);
   };
 
   useEffect(() => {
@@ -144,6 +150,8 @@ export function SignIn() {
             >
               Sign In
             </Button>
+
+            {loading && <Spinner />}
             <hr />
             <p className="text-center text-sm mt-3">or</p>
             <div className="flex flex-col justify-center items-center space-y-1 mt-3">

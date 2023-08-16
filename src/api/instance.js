@@ -8,8 +8,15 @@ export const instance = axios.create({
 })
 
 export const instance2 = axios.create({
-    baseURL: "http://64.227.44.149/api"
+    baseURL: "http://64.227.44.149/api",
+    headers: {
+        Accept: "application/json",
+        "Content-Type": "multipart/form-data"
+    }
 })
+
+export const addTokenToInstance2 = token => instance2.defaults.headers.Authorization = `Bearer ${token}`
+export const removeTokenFromInstance2 = () => delete instance2.defaults.headers.Authorization
 
 
 

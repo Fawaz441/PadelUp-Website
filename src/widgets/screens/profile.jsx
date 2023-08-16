@@ -12,6 +12,8 @@ import validators from "@/utils";
 import { showError } from "@/widgets/misc/alert";
 import { useEffect } from "react";
 import { useAuth } from "@/helpers";
+import authAPIs from "@/api/auth";
+import { toast } from "react-hot-toast";
 
 const { Content } = Layout;
 
@@ -19,30 +21,41 @@ const Profile = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-  const { login, user } = useAuth();
-
+  const { user, refreshData, token } = useAuth();
   const {
     control,
     formState: { errors },
     handleSubmit,
   } = useForm({
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      username: "",
-      email: "",
-      phone_number: "",
-      gender: "male",
-      dob: "",
-      password: "",
-      confirm_password: "",
-      skill_level: "A",
-      ...user
+      first_name: user?.firstName,
+      last_name: user?.lastName,
+      username: user?.username,
+      email: user?.email,
+      phone_number: user?.mobile,
+      gender: user?.gender,
+      dob: user?.birthday,
+      // password: "",
+      // confirm_password: "",
+      skill_level: user?.skill_level,
     },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const payload = { ...data, dob: data.dob.dateString }
+    try {
+      const formData = new FormData()
+      Object.keys(payload).map((key => {
+        formData.append(key, payload[key])
+      }))
+      // formData.append("token", token)
+      await authAPIs.updateUser(formData)
+      toast.success("Profile updated successfully")
+      refreshData()
+    }
+    catch (e) {
+      toast.error("There was an error while trying to update your profile.")
+    }
   };
 
   return (
@@ -216,7 +229,7 @@ const Profile = () => {
             )}
           />
           {/* password */}
-          <Controller
+          {/* <Controller
             control={control}
             name="password"
             rules={validators.isNonEmptyString}
@@ -230,9 +243,9 @@ const Profile = () => {
                 {...field}
               />
             )}
-          />
+          /> */}
           {/* confirm password */}
-          <Controller
+          {/* <Controller
             control={control}
             name="confirm_password"
             rules={validators.isNonEmptyString}
@@ -246,7 +259,7 @@ const Profile = () => {
                 {...field}
               />
             )}
-          />
+          /> */}
         </CardBody>
         <Button variant="gradient" fullWidth onClick={handleSubmit(onSubmit)}>
           Save Changes

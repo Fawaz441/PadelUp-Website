@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Card,
   List,
@@ -10,6 +10,8 @@ import {
   Divider,
   Typography,
 } from "antd";
+import { toast } from "react-hot-toast";
+import bookingAPIs from "@/api/bookings";
 const { Content } = Layout;
 
 const data = [
@@ -45,9 +47,24 @@ const reservationList = [
 
 const Reservations = () => {
   const [modalOpen, setModalOpen] = React.useState(false);
+  const [data, setData] = React.useState([])
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  const getBookings = async () => {
+    try {
+      const { data: info } = await bookingAPIs.getBookings()
+    }
+    catch (e) {
+      toast.error("There was an error")
+    }
+  }
+
+  useEffect(() => {
+    getBookings()
+  }, [])
+
   return (
     <Content
       style={{
