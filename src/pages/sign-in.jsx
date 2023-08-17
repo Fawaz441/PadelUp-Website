@@ -41,6 +41,7 @@ export function SignIn() {
     handleSubmit,
   } = useForm({
     defaultValues: {
+      email: "",
       phone_number: "",
       password: "",
     },
@@ -55,9 +56,16 @@ export function SignIn() {
       const formData = new FormData()
       const { nationalNumber } =
         parsePhoneNumber(userInfo.phone_number);
-      formData.append("loginCredentials[mobile]", nationalNumber)
-      formData.append("loginCredentials[password]", userInfo.password)
-      const { data } = await authAPIs.login(formData)
+      const payload = {
+        loginCredentials: {
+          email: userInfo.email,
+          mobile: nationalNumber,
+          password: userInfo.password
+        }
+      }
+      // formData.append("loginCredentials[mobile]", nationalNumber)
+      // formData.append("loginCredentials[password]", userInfo.password)
+      const { data } = await authAPIs.login(payload)
       const { token, data: info } = data;
       login(token, info)
     }
@@ -101,6 +109,21 @@ export function SignIn() {
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
+            <Controller
+              control={control}
+              name="email"
+              rules={validators.isNonEmptyString}
+              render={({ field }) => (
+                <Input
+                  variant="standard"
+                  type="email"
+                  label="Email"
+                  size="lg"
+                  error={errors.email}
+                  {...field}
+                />
+              )}
+            />
             {/* phone number */}
             <Controller
               rules={{ validate: (x) => isValidPhoneNumber(x) }}

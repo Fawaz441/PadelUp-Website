@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
       const parsedItem = JSON.parse(item);
       setUser(parsedItem);
       setToken(tkn)
-      // addTokenToInstance2(tkn);
+      addTokenToInstance2(tkn);
       setChecking(false);
     } else {
       setChecking(false);
@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
     setUser(details);
     localStorage.setItem("T-AA", tkn)
     localStorage.setItem("U-AA", JSON.stringify(details));
-    // addTokenToInstance2(tkn)
+    addTokenToInstance2(tkn)
     setToken(tkn)
   };
 
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     }
     setUser(null);
     setToken(null)
-    // removeToken()
+    removeToken()
   };
 
   const refreshData = async () => {

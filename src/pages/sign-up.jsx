@@ -22,6 +22,8 @@ import SocialButton from "@/widgets/buttons/social-button";
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
 import { InfoCircleOutlined } from "@ant-design/icons";
 import SkillsInfo from "@/widgets/misc/skills_info";
+import authAPIs from "@/api/auth";
+import { toast } from "react-hot-toast";
 
 
 function transformDateFormat(inputDate) {
@@ -70,10 +72,20 @@ export function SignUp() {
         full_mobile: phone_number,
         dial_code: countryCallingCode,
         mobile: nationalNumber,
-        dob: transformDateFormat(dob.dateString),
+        birthday: transformDateFormat(dob.dateString),
+        is_signed_up: false
       };
-      signup(payload)
-      console.log(JSON.stringify(payload));
+      // const formData = new FormData()
+      // Object.keys(payload).map((key => {
+      //   formData.append(`user[${key}]`, payload[key])
+      // }))
+      try {
+        await authAPIs.register({ user: payload })
+        toast.success("Registration successful")
+      }
+      catch (e) {
+        toast.error(e?.response?.data?.message || "There was an error")
+      }
     }
   };
 

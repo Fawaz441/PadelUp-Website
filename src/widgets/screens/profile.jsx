@@ -44,12 +44,12 @@ const Profile = () => {
   const onSubmit = async (data) => {
     const payload = { ...data, dob: data.dob.dateString }
     try {
-      const formData = new FormData()
-      Object.keys(payload).map((key => {
-        formData.append(key, payload[key])
-      }))
+      // const formData = new FormData()
+      // Object.keys(payload).map((key => {
+      //   formData.append(key, payload[key])
+      // }))
       // formData.append("token", token)
-      await authAPIs.updateUser(formData)
+      await authAPIs.updateUser(payload)
       toast.success("Profile updated successfully")
       refreshData()
     }
